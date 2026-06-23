@@ -89,7 +89,7 @@ function Brand({ stacked }) {
       <img className="nav__mark" src="assets/brand/logo-transparent.png" alt="" />
       <span className="nav__word">
         <span className="nav__name">MAANDEEQ</span>
-        <span className="nav__tag">Restaurant · Somal</span>
+        <span className="nav__tag">Restaurant · Somali</span>
       </span>
     </a>
   );

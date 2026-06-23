@@ -167,6 +167,7 @@ a { color: inherit; text-decoration: none; }
   justify-content: space-between;
   gap: 20px;
   padding: 18px var(--pad);
+  padding-top: max(18px, env(safe-area-inset-top));
   transition: background .3s var(--ease), border-color .3s var(--ease), padding .3s var(--ease);
   border-bottom: 1px solid transparent;
 }
@@ -176,6 +177,7 @@ a { color: inherit; text-decoration: none; }
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   border-bottom-color: var(--line-soft);
   padding-block: 13px;
+  padding-top: max(13px, env(safe-area-inset-top));
 }
 .nav__brand { display: inline-flex; align-items: center; gap: 12px; }
 .nav__mark {
@@ -314,7 +316,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--accent);
   letter-spacing: 0.1em;
 }
-.sheet__foot { margin-top: auto; padding: 22px var(--pad); display: grid; gap: 10px; }
+.sheet__foot { margin-top: auto; padding: 22px var(--pad) max(22px, calc(env(safe-area-inset-bottom) + 14px)); display: grid; gap: 10px; }
 .iconbtn {
   width: 44px; height: 44px; border-radius: 50%;
   border: 1px solid var(--line);
@@ -659,7 +661,7 @@ a { color: inherit; text-decoration: none; }
   font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
 }
 .field input, .field select, .field textarea {
-  font: inherit; font-size: 15px;
+  font: inherit; font-size: 16px;
   padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -891,7 +893,7 @@ a { color: inherit; text-decoration: none; }
 .foot__news h3 { font-family: var(--serif); font-size: clamp(26px, 3.4vw, 40px); font-weight: 500; margin: 14px 0 0; letter-spacing: -0.01em; }
 .newsform { display: flex; gap: 8px; flex-wrap: wrap; }
 .newsform input {
-  font: inherit; font-size: 15px; padding: 14px 18px;
+  font: inherit; font-size: 16px; padding: 14px 18px;
   border: 1px solid var(--line); border-radius: 100px; min-width: 240px; flex: 1;
 }
 .newsform input:focus { outline: none; border-color: var(--accent); }
@@ -917,7 +919,7 @@ a { color: inherit; text-decoration: none; }
    Sticky mobile action
    =========================================================== */
 .fab {
-  position: fixed; right: 18px; bottom: 18px; z-index: 55;
+  position: fixed; right: 18px; bottom: max(18px, calc(env(safe-area-inset-bottom) + 10px)); z-index: 55;
   display: inline-flex; align-items: center; gap: 9px;
   padding: 14px 20px;
   border-radius: 100px;
@@ -944,4 +946,27 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 560px) {
   .fgrid { grid-template-columns: 1fr; }
   .hero__cta .btn { flex: 1; }
+}
+
+/* ---- very small screens (< 480px) ---- */
+@media (max-width: 480px) {
+  .foot__cols { grid-template-columns: 1fr; }
+  .newsform input { min-width: 0; }
+}
+
+/* ---- narrow phones — catering metrics ---- */
+@media (max-width: 420px) {
+  .cater__metrics { grid-template-columns: 1fr; }
+  .cater__metric { border-left: 0; border-top: 1px solid rgba(255,255,255,0.14); }
+  .cater__metric:first-child { border-top: 0; }
+}
+
+/* ---- touch targets (coarse pointer = touch screens) ---- */
+@media (pointer: coarse) {
+  .qty button { min-width: 44px; min-height: 44px; }
+  .pill,
+  .chip,
+  .sig__add,
+  .addbtn { min-height: 44px; padding-block: 12px; }
+  .menu__tab { min-height: 44px; }
 }
