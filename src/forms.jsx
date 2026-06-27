@@ -10,6 +10,7 @@ function ReservationForm() {
 
   const today = new Date().toISOString().split("T")[0];
 
+  const [sending, setSending] = useFS(false);
   const submit = (e) => {
     e.preventDefault();
     const next = {};
@@ -18,7 +19,18 @@ function ReservationForm() {
     if (!f.date) next.date = "Pick a date";
     if (!f.time) next.time = "Pick a time";
     setErr(next);
-    if (Object.keys(next).length === 0) setDone(true);
+    if (Object.keys(next).length) return;
+    const payload = { party: f.party, date: f.date, time: f.time, name: f.name.trim(), phone: f.phone.trim(), notes: f.notes };
+    if (window.MasulForms && window.MasulForms.submit) {
+      setSending(true);
+      window.MasulForms.submit("booking", payload).then((r) => {
+        setSending(false);
+        if (r && r.ok) setDone(true);
+        else setErr({ phone: (r && r.errors && r.errors.join(". ")) || "Sorry — we couldn't send that. Please call us." });
+      }).catch(() => { setSending(false); setErr({ phone: "Network error — please try again." }); });
+    } else {
+      setDone(true);
+    }
   };
 
   if (done) {
@@ -77,8 +89,8 @@ function ReservationForm() {
           <textarea rows="2" placeholder="High chair, allergies, celebration…" value={f.notes} onChange={set("notes")} />
         </div>
       </div>
-      <button className="btn btn--solid btn--full btn--lg" type="submit" style={{ marginTop: 18 }}>
-        Request table <Icon.Arrow />
+      <button className="btn btn--solid btn--full btn--lg" type="submit" disabled={sending} style={{ marginTop: 18 }}>
+        {sending ? "Sending…" : <>Request table <Icon.Arrow /></>}
       </button>
       <p className="card__sub" style={{ margin: "12px 0 0", textAlign: "center" }}>We'll confirm by text — usually within the hour.</p>
     </form>
