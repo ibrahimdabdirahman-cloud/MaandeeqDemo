@@ -30,6 +30,10 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
+/* QA 2026-06-30: clip the off-canvas .sheet drawer (parked off-screen right) so
+   it never produces horizontal scroll on mobile. Header is position:fixed, not
+   sticky, so an overflow-x guard is safe here. */
+html, body { overflow-x: hidden; }
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--sans);
